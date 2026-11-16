@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ar — respirar, por assinatura</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;600&family=Familjen+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --sky:#CFE6F2;--ink:#08283B;--lime:#D8FF3E;--white:#FBFEFF;--soft:#7FA6BA;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sky:#07202E;--ink:#E4F3FA;--white:#0C2D40;--soft:#6F98AD}}
+:root[data-theme="dark"]{--sky:#07202E;--ink:#E4F3FA;--white:#0C2D40;--soft:#6F98AD}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:"Familjen Grotesk",system-ui,sans-serif;font-size:19px;line-height:1.5;overflow-x:hidden}
+.w{max-width:1100px;margin:0 auto;padding:0 28px}
+nav{display:flex;justify-content:space-between;align-items:baseline;padding:24px 0}
+.mk{font-family:Unbounded,sans-serif;font-weight:600;font-size:28px;text-decoration:none;letter-spacing:-.04em;color:var(--ink)}
+nav a.l{color:var(--ink);font-size:16px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+/* hero */
+.hero{position:relative;min-height:calc(100vh - 80px);display:flex;flex-direction:column;justify-content:center;padding:24px 0 64px}
+h1{font-family:Unbounded,sans-serif;font-weight:300;font-size:clamp(56px,13vw,176px);line-height:.9;letter-spacing:-.06em;margin:0;position:relative;z-index:2}
+.sub{max-width:34ch;margin:28px 0 0;position:relative;z-index:2;font-size:21px}
+#orb{position:absolute;right:max(-10vw,-120px);top:50%;width:min(62vw,620px);aspect-ratio:1;border-radius:50%;background:var(--white);transform:translateY(-50%) scale(.5);z-index:1;display:grid;place-items:center;transition:transform 4s cubic-bezier(.45,0,.35,1),background .6s;box-shadow:0 0 0 18px color-mix(in srgb,var(--white) 45%,transparent),0 0 0 44px color-mix(in srgb,var(--white) 22%,transparent)}
+#orb.in{transform:translateY(-50%) scale(1)}
+#orb.out{transform:translateY(-50%) scale(.5)}
+#orb.dead{transform:translateY(-50%) scale(.12);transition-duration:1.2s;background:var(--soft);box-shadow:none}
+#say{font-family:Unbounded,sans-serif;font-weight:300;font-size:clamp(18px,3vw,30px);text-align:center;transition:transform 4s cubic-bezier(.45,0,.35,1)}
+#orb.in #say{transform:scale(1)}
+.meter{margin-top:48px;position:relative;z-index:2;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.lungs{display:flex;gap:6px}
+.lungs i{width:22px;height:22px;border-radius:50%;border:2px solid var(--ink);transition:background .3s}
+.lungs i.on{background:var(--ink)}
+.meter p{margin:0;font-size:16px}
+/* corpo */
+section{padding:96px 0}
+.dark{background:var(--ink);color:var(--sky)}
+h2{font-family:Unbounded,sans-serif;font-weight:300;font-size:clamp(34px,5vw,64px);line-height:1;letter-spacing:-.05em;margin:0 0 20px;max-width:14ch}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.cols p{margin:0 0 18px;max-width:44ch}
+.list{border-top:2px solid currentColor}
+.list div{display:flex;justify-content:space-between;gap:24px;padding:20px 0;border-bottom:2px solid currentColor}
+.list b{font-weight:600}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--ink);background:var(--white)}
+.plan{padding:36px 30px 32px;border-right:2px solid var(--ink);display:flex;flex-direction:column;min-height:420px}
+.plan:last-child{border:0}
+.plan h3{font-family:Unbounded,sans-serif;font-weight:600;font-size:22px;letter-spacing:-.03em;margin:0 0 4px}
+.plan .o{color:var(--soft);font-size:15px;margin:0 0 28px}
+.plan .p{font-family:Unbounded,sans-serif;font-weight:300;font-size:46px;letter-spacing:-.06em;line-height:1}
+.plan .p small{font-size:15px;letter-spacing:0;font-family:"Familjen Grotesk"}
+.plan ul{margin:24px 0 32px;padding:0;list-style:none;font-size:17px;flex:1}
+.plan li{padding:6px 0;border-bottom:1px solid color-mix(in srgb,var(--ink) 18%,transparent)}
+.plan.best{background:var(--lime);color:#08283B}
+.plan.best .o{color:#41571a}
+.plan.best li{border-color:#08283B33}
+.go{font:inherit;font-weight:600;border:2px solid currentColor;background:none;color:inherit;padding:14px;cursor:pointer;font-size:17px;border-radius:99px}
+.go:hover{background:var(--ink);color:var(--white)}
+.plan.best .go{background:#08283B;color:var(--lime);border-color:#08283B}
+.quote{font-family:Unbounded,sans-serif;font-weight:300;font-size:clamp(26px,4vw,48px);line-height:1.1;letter-spacing:-.04em;max-width:22ch}
+.who{margin-top:20px;font-size:16px;color:var(--soft)}
+footer{padding:36px 0 56px;font-size:14px;color:var(--soft)}
+/* paywall */
+#wall{position:fixed;inset:0;z-index:50;background:color-mix(in srgb,var(--sky) 88%,transparent);backdrop-filter:blur(10px);display:none;place-items:center;padding:24px}
+#wall.on{display:grid}
+#wall .box{background:var(--ink);color:var(--sky);padding:40px;max-width:520px;border-radius:4px}
+#wall h2{font-size:38px;max-width:none;margin-bottom:14px}
+#wall p{margin:0 0 24px}
+#wall .row{display:flex;gap:12px;flex-wrap:wrap}
+#wall .go.yes{background:var(--lime);color:#08283B;border-color:var(--lime)}
+#wall .go.no{color:var(--sky)}
+#thx{color:var(--lime);font-weight:600}
+@media (max-width:820px){
+  .cols,.plans{grid-template-columns:1fr}
+  .plan{border-right:0;border-bottom:2px solid var(--ink);min-height:0}
+  #orb{top:auto;bottom:-6vw;right:-20vw;width:90vw;transform:scale(.5)}
+  #orb.in{transform:scale(1)}#orb.out{transform:scale(.5)}#orb.dead{transform:scale(.12)}
+  .hero{min-height:auto;padding-bottom:110vw}
+}
+@media (prefers-reduced-motion:reduce){#orb,#say{transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="w">
+  <nav><a class="mk" href="#">ar</a><a class="l" href="#planos">Planos</a></nav>
+  <header class="hero">
+    <h1>respire.</h1>
+    <p class="sub">Você já faz isso 20 mil vezes por dia, de graça. Agora pode fazer com <i>garantia de qualidade</i> e débito automático.</p>
+    <div id="orb" aria-live="polite"><div id="say">inspire</div></div>
+    <div class="meter">
+      <div class="lungs" id="lungs" aria-label="Respirações gratuitas restantes"></div>
+      <p id="mt">Plano Gratuito: 5 respirações grátis</p>
+    </div>
+  </header>
+</div>
+
+<section class="dark">
+  <div class="w cols">
+    <div>
+      <h2>O ar de graça nunca foi tão caro.</h2>
+    </div>
+    <div>
+      <p>O ar comum vem misturado, sem curadoria e sem nenhum tipo de ritual. Você não sabe de onde veio, nem quem respirou antes.</p>
+      <p>A Ar escolhe, filtra e entrega a experiência de respirar em cada ciclo. Na prática é o mesmo oxigênio, mas com uma interface mais bonita.</p>
+    </div>
+  </div>
+</section>
+
+<section id="planos">
+  <div class="w">
+    <h2>Escolha como você respira.</h2>
+    <p style="max-width:44ch;margin:0 0 48px">Todos os planos incluem inspiração e expiração. Cancelar é possível, mas exige prender a respiração por 40 segundos.</p>
+    <div class="plans">
+      <div class="plan"><h3>Ar Comum</h3><p class="o">o ar de sempre, com marca</p><div class="p">R$ 9<small> /mês</small></div><ul><li>5 respirações por sessão</li><li>Anúncios entre as inspirações</li><li>Sem expirar em público</li></ul><button class="go" data-buy>Assinar Comum</button></div>
+      <div class="plan best"><h3>Ar Premium</h3><p class="o">o mais escolhido</p><div class="p">R$ 29<small> /mês</small></div><ul><li>Respirações ilimitadas</li><li>Ar de montanha (percepção)</li><li>Prioridade na inspiração</li><li>Suspiro incluído</li></ul><button class="go" data-buy>Assinar Premium</button></div>
+      <div class="plan"><h3>Ar Reserva</h3><p class="o">edição limitada</p><div class="p">R$ 149<small> /mês</small></div><ul><li>Tudo do Premium</li><li>Ar de 1998, engarrafado</li><li>Certificado de respiração</li><li>Mordomo que avisa: “agora”</li></ul><button class="go" data-buy>Assinar Reserva</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="w">
+    <div class="quote">“Eu respirava bem antes. Agora respiro com recibo.”</div>
+    <div class="who">Marina, assinante Premium há 3 meses (cliente fictícia)</div>
+  </div>
+</section>
+
+<div class="w"><footer>Desenvolvido por Miguel Oliveira Martins, Victor Hugo Minchin e Cassio Cesar Souza Brito.<br>Ar é um projeto de humor para estudo. Nenhum pulmão foi cobrado durante a produção desta página.</footer></div>
+
+<div id="wall" role="dialog" aria-modal="true" aria-labelledby="wt">
+  <div class="box">
+    <h2 id="wt">Seu ar acabou.</h2>
+    <p id="wp">As 5 respirações gratuitas foram usadas. Para continuar inspirando, escolha um plano. Seu corpo já está pedindo.</p>
+    <div class="row">
+      <button class="go yes" id="sub">Assinar Premium por R$ 29</button>
+      <button class="go no" id="hold">Prefiro prender o ar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var orb=document.getElementById("orb"),say=document.getElementById("say"),lungs=document.getElementById("lungs"),mt=document.getElementById("mt"),wall=document.getElementById("wall");
+  var MAX=5,left=MAX,premium=false,total=0,stop=false,t1,t2;
+  for(var i=0;i<MAX;i++){var d=document.createElement("i");d.className="on";lungs.appendChild(d)}
+  function lungsUpdate(){for(var i=0;i<MAX;i++)lungs.children[i].className=(i<left||premium)?"on":""}
+  function inhale(){
+    if(stop)return;
+    if(!premium&&left<=0){die();return}
+    say.textContent="inspire";orb.className="in";
+    t1=setTimeout(exhale,4000);
+  }
+  function exhale(){
+    if(stop)return;
+    say.textContent="expire";orb.className="out";
+    total++;
+    if(!premium){left--;lungsUpdate()}
+    mt.textContent=premium?"Plano Premium: "+total+" respirações, todas com recibo":(left>0?"Plano Gratuito: "+left+" respiraç"+(left==1?"ão":"ões")+" grátis":"Plano Gratuito: 0 respirações grátis");
+    t2=setTimeout(inhale,4000);
+  }
+  function die(){
+    stop=true;orb.className="dead";say.textContent="";wall.classList.add("on");
+    document.getElementById("sub").focus();
+  }
+  function start(){stop=false;clearTimeout(t1);clearTimeout(t2);setTimeout(inhale,300)}
+  document.getElementById("sub").addEventListener("click",function(){
+    premium=true;wall.classList.remove("on");lungsUpdate();start();
+  });
+  document.getElementById("hold").addEventListener("click",function(){
+    var p=document.getElementById("wp");
+    p.textContent="Ok. Cronômetro iniciado. Segurando o ar por 40 segundos, sem anúncios. Depois a oferta volta.";
+    var b=this;b.disabled=true;
+    setTimeout(function(){p.textContent="Você voltou. O plano Premium continua a R$ 29. Respirar é voluntário, mas recomendado.";b.disabled=false},4000);
+  });
+  document.querySelectorAll("[data-buy]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var o=b.textContent;b.textContent="Inspire fundo. Sem cartão, sem ar.";
+      setTimeout(function(){b.textContent=o},2400);
+    });
+  });
+  start();
+})();
+</script>
+</body>
+</html>
